@@ -1,0 +1,29 @@
+<main>
+    <div class="container body-content span=8 offset=2">
+        <div class="alert alert-info alert-danger" th:if="${errors}">
+            <p th:each="err : ${errors}" th:text="${err.getDefaultMessage()}"></p>
+        </div>
+        <div class="well">
+            <form class="form-horizontal" th:action="@{/currentWccGames/add}" method="POST">
+                <fieldset>
+                    <legend></legend>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" for="game_pgn">World Championship Game PGN</label>
+                        <div class="col-sm-4 ">
+                            <textarea type="text" rows="10" class="form-control" id="game_pgn" placeholder="PGN"
+                                   name="pgn"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <a class="btn btn-default" th:href="@{/}">Cancel</a>
+                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</main>

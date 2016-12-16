@@ -1,0 +1,56 @@
+<body>
+
+
+<form style="display: none;"><textarea style="display: none;" id="pgnText">
+      <text th:value="${article.pgn}"></text>
+</textarea></form>
+
+
+<h1 style="margin-top:0px; padding-top:0px;"></h1>
+
+<table width="100%" cellpadding="10" cellspacing="20" border="0">
+    <tr valign="top" >
+
+        <td width="388" rowspan="2">
+            <div id="GameSelector"></div>
+            <div id="GameSearch"></div>
+            <p></p>
+            <div id="GameBoard"></div>
+            <p></p>
+            <div id="GameButtons"></div>
+        </td>
+
+        <td>
+            <br></br>
+            <span class="label" style="color:black; font-size: 19px">Event:</span> <span id="GameEvent"></span>
+            <br></br>
+            <span class="label" style="color:black; font-size: 19px">Site:</span> <span id="GameSite"></span>
+            <br></br>
+            <span class="label" style="color:black; font-size: 19px">Round:</span> <span id="GameRound" ></span>
+            <br></br>
+            <span class="label" style="color:black; font-size: 19px">Date:</span> <span id="GameDate"></span>
+            <p></p>
+            <span class="label" style="color:black; font-size: 19px">White:</span> <span id="GameWhite"></span>
+            <br></br>
+            <span class="label" style="color:black; font-size: 19px">Black:</span> <span id="GameBlack"></span>
+            <br></br>
+            <span class="label" style="color:black; font-size: 19px">Result:</span> <span id="GameResult"></span>
+            <p></p>
+                <span class="label" style="color:black; font-size: 19px">Side to move:</span> <span id="GameSideToMove"></span>
+                <br></br>
+                <span class="label" style="color:black; font-size: 19px">Last move:</span> <span id="GameLastMove"></span>&nbsp; <span class="label">variations:</span> <span id="GameLastVariations"></span>
+                <br></br>
+                <span class="label" style="color:black; font-size: 19px">Next move:</span> <span id="GameNextMove"></span>&nbsp; <span class="label">variations:</span> <span id="GameNextVariations"></span>
+            <p></p>
+            <span class="label">Move comment:</span><br><span id="GameLastComment"></span></br>
+        </td>
+
+    </tr>
+</table>
+
+<p></p>
+<hr></hr>
+
+<div style="font-size: 90%; text-align: justify;" id="GameText"></div>
+
+</body>

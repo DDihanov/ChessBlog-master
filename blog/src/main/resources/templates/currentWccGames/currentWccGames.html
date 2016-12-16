@@ -1,0 +1,36 @@
+
+<body>
+
+
+
+<form style="display: none;"><textarea style="display: none;" id="pgnText">
+
+    <th:block th:each="game : ${games}">
+
+        <p th:text="${game.pgn}"></p>
+
+    </th:block>
+
+
+</textarea></form>
+
+
+
+<center>
+    <b><span id="GameWhite"></span>&nbsp;-&nbsp;<span id="GameBlack"></span>&nbsp;&nbsp;<span id="GameResult"></span></b>
+    <p></p>
+    <div id="GameBoard"></div>
+    <p></p>
+    <div id="GameButtons"></div>
+    <p></p>
+    <span id="GameSelector"></span>
+    <p></p>
+</center>
+
+<div class="text-center">
+    <th:block sec:authorize="isAuthenticated()" th:if="${user.isAdmin()}">
+        <a class="btn btn-info" th:href="@{/currentWccGames/add}">Add WCC Game</a>
+    </th:block>
+</div>
+
+</body>

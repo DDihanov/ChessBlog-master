@@ -1,0 +1,37 @@
+<body>
+
+
+<!-- paste your PGN below and make sure you dont specify an external source with SetPgnUrl() -->
+<form style="display: none;"><textarea style="display: none;" id="pgnText">
+
+                    <text th:value="${article.pgn}"></text>
+
+                    </textarea>
+</form>
+
+<!-- paste your PGN above and make sure you dont specify an external source with SetPgnUrl() -->
+
+
+<center>
+    <b>
+                            <span id="GameWhite">
+                        </span>&nbsp;-&nbsp;
+        <span id="GameBlack">
+                            </span>&nbsp;&nbsp;<span id="GameResult">
+                            </span>
+        <div id="GameEvent"></div>
+        <div id="GameSite"></div>
+        <div id="GameDate"></div>
+    </b>
+    <p></p>
+    <div id="GameBoard"></div>
+    <p></p>
+    <div id="GameButtons"></div>
+    <p></p>
+    <p><div id="GameText"></div></p>
+    <p></p>
+    <div id="GameLastComment"></div>
+    <p></p>
+    <p></p>
+</center>
+</body>
