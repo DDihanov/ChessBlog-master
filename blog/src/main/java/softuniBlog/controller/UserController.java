@@ -10,13 +10,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuniBlog.bindingModel.UserBindingModel;
+import softuniBlog.bindingModel.UserEditBindingModel;
 import softuniBlog.entity.Role;
 import softuniBlog.entity.User;
 import softuniBlog.repository.RoleRepository;
@@ -102,10 +101,73 @@ public class UserController{
 
         User user = this.userRepository.findByEmail(principal.getUsername());
 
+
         model.addAttribute("user", user);
         model.addAttribute("view", "user/profile");
 
         return "base-layout";
+    }
+
+
+    @GetMapping("/profile/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String userEdit(Model model, @PathVariable Integer id){
+        if(!this.userRepository.exists(id)){
+            return "redirect:/profile";
+        }
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        User user = this.userRepository.findByEmail(principal.getUsername());
+
+
+        model.addAttribute("user", user);
+        model.addAttribute("view", "user/edit");
+
+        return "base-layout";
+    }
+
+    @PostMapping("/profile/edit/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String editUserProcess(@PathVariable Integer id,@Valid UserEditBindingModel userBindingModel,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes){
+        if(!this.userRepository.exists(id)){
+            return "redirect:/profile";
+        }
+
+        User user = this.userRepository.findOne(id);
+
+        if(!StringUtils.isEmpty(userBindingModel.getPassword())
+                && !StringUtils.isEmpty(userBindingModel.getConfirmPassword())){
+            if(userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
+                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+                user.setPassword(bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
+            }
+        }
+
+
+        if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
+            bindingResult.rejectValue("password", "messageCode", "Passwords must match");
+        }
+
+        if(userBindingModel.getPassword().isEmpty()){
+            bindingResult.rejectValue("password", "messageCode", "Password cannot be left empty.");
+        }
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getFieldError());
+            return "redirect:/admin/users/edit/" + id;
+        }
+
+        user.setFullName(userBindingModel.getFullName());
+        user.setEmail(userBindingModel.getEmail());
+
+        this.userRepository.saveAndFlush(user);
+
+        return "redirect:/profile";
     }
 }
 

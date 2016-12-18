@@ -1,13 +1,117 @@
+<!--<main>-->
+<!--<div class="container body-container">-->
+<!--<div class="row">-->
+<!--<div id="main" class="col-sm-9">-->
+<!--<div>-->
+<!--<span th:text="${user.email}"></span>-->
+<!--<br/>-->
+<!--<span th:text="${user.fullName}"></span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</main>-->
+
 <main>
-    <div class="container body-container">
-        <div class="row">
-            <div id="main" class="col-sm-9">
-                <div>
-                    <span th:text="${user.email}"></span>
-                    <br/>
-                    <span th:text="${user.fullName}"></span>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
+        <li><a href="#yourPosts" data-toggle="tab">Your Posts</a></li>
+        <li><a href="#yourComments" data-toggle="tab">Your Comments</a></li>
+    </ul>
+    <div id="profileContent" class="tab-content">
+        <div class="tab-pane fade active in" id="profile">
+            <p>
+            <div class="container body-content span=8 offset=2">
+                <div class="well">
+                    <form class="form-horizontal" th:action="@{/profile/edit/{id}(id=${user.id})}" method="get">
+                        <fieldset>
+                            <legend>Your information</legend>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="user_email">Email</label>
+                                <div class="col-sm-4 ">
+                                    <input class="form-control" type="email" id="user_email" placeholder="Email"
+                                           name="email" th:value="${user.email}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="user_fullname">Full Name</label>
+                                <div class="col-sm-4 ">
+                                    <input class="form-control" type="text" id="user_fullname" placeholder="Full Name"
+                                           name="fullName" th:value="${user.fullName}" disabled="disabled"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label" for="user_roles">Your role</label>
+                                <div class="col-sm-4 ">
+                                    <th:block th:each="role : ${user.getRoles()}">
+                                        <input id="roles" type="checkbox" name="roles" th:value="${role.id}"
+                                               th:text="${role.getSimpleName()}"
+                                               disabled="disabled"
+                                               th:checked="${user.roles.contains(role)}"/>
+                                        <br/>
+                                    </th:block>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <a class="btn btn-default" th:href="@{/profile/}">Cancel</a>
+                                    <input value="Edit Profile" type="submit" class="btn btn-danger"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
+            </p>
         </div>
+        <div style="word-break: break-all" class="tab-pane fade" id="yourPosts">
+            <p>
+                <th:block th:each="article : ${user.getArticles()}">
+                    <div class="col-md-6">
+                        <article>
+                            <header>
+                                <h2 th:text="${article.title}"></h2>
+                            </header>
+            <p th:text="${article.summary}"></p>
+            <small class="author" th:text="${article.author.fullName}"></small>
+            <p>
+                <a class="btn btn-default btn-xs" th:each="tag:${article.tags}"
+                   th:href="@{/tag/{name}(name=${tag.name})}" th:text="${tag.name}"></a>
+            </p>
+            <footer>
+                <div class="pull-right">
+                    <a class="btn btn-default btn-xs"
+                       th:href="@{/article/{id}(id=${article.id})}">Read more &raquo;</a>
+                </div>
+            </footer>
+            </article>
+        </div>
+        </th:block>
+        </p>
+    </div>
+
+    <div style="word-break: break-all" class="tab-pane fade" id="yourComments">
+        <p>
+            <th:block th:each="comment : ${user.getComments()}">
+                <div class="col-md-6">
+                    <article>
+                        <header>
+                            <h2 th:text="${comment.title}"></h2>
+                        </header>
+                        <small class="author" th:text="${comment.author.fullName}"></small>
+                        <footer>
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-xs"
+                                   th:href="@{/article/{id}(id=${comment.article.id})}">Read more &raquo;</a>
+                            </div>
+                        </footer>
+                    </article>
+                </div>
+            </th:block>
+        </p>
+    </div>
+
+
     </div>
 </main>

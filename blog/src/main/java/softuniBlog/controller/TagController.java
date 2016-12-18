@@ -29,6 +29,9 @@ public class TagController{
         model.addAttribute("view", "tag/articles");
         model.addAttribute("tag", tag);
 
+//        List<Tag> tags = this.tagRepository.findAll().stream().sorted(Comparator.comparing(a->a.getArticles().size())).collect(Collectors.toList());
+//        List<Tag> tags = this.tagRepository.findAll().stream().sorted((a,b)->
+//                Integer.valueOf(a.getArticles().size()).compareTo(Integer.valueOf(b.getArticles().size()))).collect(Collectors.toList());
         return "base-layout";
     }
 }

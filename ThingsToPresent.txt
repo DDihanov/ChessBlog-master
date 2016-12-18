@@ -23,7 +23,8 @@ footer for ${session} attribute)
 
 5 - Implemented comment section
 5.1 - users can add or delete comments below posts if they are the author or admin of the comments/blog
-5.1 - comments sorted by date in newest comment first
+5.2 - comments sorted by date in newest comment first
+5.3 - last edit date
 
 6 - user profile - implement avatar service or listing of all comments/articles added by the user
 

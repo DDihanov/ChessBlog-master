@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuniBlog.bindingModel.UserEditBindingModel;
+import softuniBlog.entity.Article;
 import softuniBlog.entity.Role;
 import softuniBlog.entity.User;
 import softuniBlog.repository.ArticleRepository;
@@ -112,6 +113,9 @@ public class AdminUserController{
             roles.add(this.roleRepository.findOne(roleId));
         }
 
+
+        user.setFullName(userBindingModel.getFullName());
+        user.setEmail(userBindingModel.getEmail());
         user.setRoles(roles);
 
         this.userRepository.saveAndFlush(user);
@@ -141,8 +145,11 @@ public class AdminUserController{
 
         User user = this.userRepository.findOne(id);
 
-        model.addAttribute("user", user);
-        model.addAttribute("view", "admin/user/delete");
+        for(Article article : user.getArticles()){
+            this.articleRepository.delete(article);
+        }
+
+        this.userRepository.delete(user);
 
         return "redirect:/admin/users/";
     }

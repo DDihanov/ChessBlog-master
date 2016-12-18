@@ -1,7 +1,7 @@
 <main>
     <div class="container body-content">
         <h1>Search by Tag - <th:block th:text="${tag.name}"></th:block></h1>
-        <div class="row">
+        <div style="word-break: break-all" class="row">
             <th:block th:each="article : ${tag.articles}">
                 <div class="col-md-6">
                     <article>
