@@ -25,7 +25,7 @@ footer for ${session} attribute)
 5.1 - users can add or delete comments below posts if they are the author or admin of the comments/blog
 5.2 - comments sorted by date in newest comment first
 5.3 - last edit date
-
-6 - user profile - implement avatar service or listing of all comments/articles added by the user
+5.4 - implemented Likes/Dislikes
+5.5 - implemented percentage bar(explain in details template)
 
 PS: BindingResult must be immidiatly after bindingModel or it will not work!!!
