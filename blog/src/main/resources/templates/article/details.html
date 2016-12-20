@@ -63,7 +63,7 @@
                                     <div class="progress">
                                         <th:block th:unless="${comment.getLikes().size()} == 0 AND ${comment.getDislikes().size()} == 0"
                                         th:with="total=${comment.getLikes().size()}/(${comment.getLikes().size() + comment.getDislikes().size()})*100">
-                                            <div class="progress-bar" th:style="'width: ' + ${#numbers.formatInteger(total , 2, 'POINT')}+'%'"></div>
+                                            <div class="progress-bar" th:style="'width: ' + ${#numbers.formatInteger(total, 2, 'POINT')}+'%'"></div>
                                         </th:block>
                                     </div>
                                     <span class="pull-left btn-info btn-sm" th:text="'Likes: ' + ${comment.getLikes().size()}"></span>

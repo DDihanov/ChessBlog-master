@@ -2,30 +2,35 @@
 1.1 - PGN Validation (regex)- Empty - no Chessboard, Not Empty - chess board
 1.2 - Obligatory tag, title, content, size of title and content added
 1.3 - Explaining pgn4web - article/details (not #strings.isEmpty)
-1.4 - explain include pgnViewer2 fragment 
-2 - ADD WCC Game(only admin) - PGN Validation on adding, PGN cannot be empty here
+1.4 - explain include pgnViewer2 fragment(article.pgn)
+2 - ADD WCC Game(only admin in currentWccGames) - PGN Validation on adding, PGN cannot be empty here
 
 3 - Displaying errors outside of form (HTML CODE) - bindingResult.getFieldErrors() and err.getDefaultMessage() for errors outside of Form 
-3.1 - User Registration matching passwords adding error to BindingResult with bindingResult.rejectValue - custom error messages
+3.1 - User Registration matching passwords adding error to BindingResult with bindingResult.rejectValue 
+- custom error messages
 3.1.1 - password size added
 3.1.2 - email regex added
 3.1.3 - !!!CHECK FOR ALREADY REGISTERED USER ADDED!!!(in UserController)
 3.2 - categories cannot be empty, EXISTING CATEGORY ERROR MESSAGE(IMPORTANT)
 3.3 - Admin user edit with bindingResult.rejectValue, cannot have empty roles, passwords must match, 
       cannot have empty password or password less than 3 digits
-
+(mention error message <div> on top of the views)
 
 4 - Implemented Search bar
 4.1 - implemented search function by dropdown menu including tags, title etc
 4.1 - implemented session attributes posts users and categories counter(Check HomeController for HttpSession and also
 footer for ${session} attribute)
 
+5 - updated My Profile section
+5.1 - users can see all of their posts and change their password
+5.2 users can see all their comments
 
-5 - Implemented comment section
-5.1 - users can add or delete comments below posts if they are the author or admin of the comments/blog
-5.2 - comments sorted by date in newest comment first
-5.3 - last edit date
-5.4 - implemented Likes/Dislikes
-5.5 - implemented percentage bar(explain in details template)
+6 - Implemented comment section(check CommentBindingModel for localdatetime)
+6.1 - users can add or delete comments below posts if they are the author or admin of the comments/blog
+6.2 - comments sorted by date in newest comment first
+6.3 - last edit date
+6.4 - implemented Likes/Dislikes
+6.5 - implemented percentage bar(explain in details template), eplain You Like This and You Dislike This
+6.6 - added session attribute for username to display instead of My Profile in header
 
 PS: BindingResult must be immidiatly after bindingModel or it will not work!!!

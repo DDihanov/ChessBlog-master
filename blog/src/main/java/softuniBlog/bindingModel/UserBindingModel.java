@@ -13,7 +13,7 @@ public class UserBindingModel {
     private String fullName;
 
     @NotNull(message = "Password cannot be empty!")
-    @Size(min = 5, message = "Password must be more than 3 characters.")
+    @Size(min = 5, message = "Password must be more than 5 characters.")
     private String password;
 
     @NotNull(message = "Please confirm password!")
