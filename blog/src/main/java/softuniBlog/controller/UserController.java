@@ -76,8 +76,8 @@ public class UserController{
 
     @GetMapping("/login")
     public String login(Model model){
-        model.addAttribute("view", "user/login");
 
+        model.addAttribute("view", "user/login");
         return "base-layout";
     }
 

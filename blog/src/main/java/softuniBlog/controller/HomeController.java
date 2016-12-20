@@ -1,6 +1,9 @@
 package softuniBlog.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import softuniBlog.entity.Article;
 import softuniBlog.entity.Category;
+import softuniBlog.entity.User;
 import softuniBlog.repository.*;
 
 import javax.servlet.http.HttpSession;
@@ -48,6 +52,18 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         List<Category> categories = this.categoryRepository.findAll();
+
+        if (!(SecurityContextHolder.getContext().getAuthentication()
+                instanceof AnonymousAuthenticationToken)) {
+            UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                    .getAuthentication().getPrincipal();
+
+            User userEntity = this.userRepository.findByEmail(principal.getUsername());
+
+            String userName = this.userRepository.findByEmail(principal.getUsername()).getFullName();
+
+            session.setAttribute("userName", userName);
+        }
 
         long totalUsers = this.userRepository.count();
         long totalArticles = this.articleRepository.count();
