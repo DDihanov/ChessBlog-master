@@ -1,6 +1,8 @@
 package softuniBlog.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "comments")
@@ -19,6 +21,45 @@ public class Comment{
     private Article article;
 
     private String lastEditDate;
+
+    private Set<Integer> likes;
+
+    private Set<Integer> dislikes;
+
+    private boolean liked;
+
+    private boolean disliked;
+
+
+    @Transient
+    public boolean isLiked(Integer id) {
+        return this.likes.contains(id);
+    }
+
+    @Transient
+    public boolean isDisliked(Integer id) {
+        return this.dislikes.contains(id);
+    }
+
+    @Column(nullable = true)
+    @ElementCollection(targetClass=Integer.class)
+    public Set<Integer> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<Integer> likes) {
+        this.likes = likes;
+    }
+
+    @Column(nullable = true)
+    @ElementCollection(targetClass=Integer.class)
+    public Set<Integer> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<Integer> dislikes) {
+        this.dislikes = dislikes;
+    }
 
     @Column(nullable = true, columnDefinition = "text")
     public String getLastEditDate() {
@@ -89,11 +130,14 @@ public class Comment{
     public Comment() {
     }
 
-    public Comment(String title, String content, User author, String localDateTime, Article article) {
+    public Comment(String title, String content, User author, String localDateTime, Article article,
+                   HashSet<Integer> likes, HashSet<Integer> dislikes) {
         this.title = title;
         this.content = content;
         this.author = author;
         this.localDateTime = localDateTime;
         this.article = article;
+        this.likes = likes;
+        this.dislikes = dislikes;
     }
 }

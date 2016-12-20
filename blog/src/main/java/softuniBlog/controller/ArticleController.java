@@ -143,6 +143,7 @@ public class ArticleController {
                 .stream().sorted((c1,c2)->compareDate(c2.getLocalDateTime(),c1.getLocalDateTime()))
                 .collect(Collectors.toList());
 
+
         model.addAttribute("view", "article/details");
         model.addAttribute("article", article);
         model.addAttribute("comments", comments);

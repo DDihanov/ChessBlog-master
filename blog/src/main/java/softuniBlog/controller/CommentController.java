@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuniBlog.bindingModel.CommentBindingModel;
 import softuniBlog.entity.Article;
@@ -21,6 +22,7 @@ import softuniBlog.repository.CommentRepository;
 import softuniBlog.repository.UserRepository;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -94,12 +96,16 @@ public class CommentController {
 
         User userEntity = this.userRepository.findByEmail(principal.getUsername());
         Article article = this.articleRepository.findOne(id);
+        HashSet<Integer> likes = new HashSet<>();
+        HashSet<Integer> dislikes = new HashSet<>();
 
         Comment comment = new Comment(commentBindingModel.getTitle(),
                 commentBindingModel.getContent(),
                 userEntity,
                 commentBindingModel.getLocalDateTime(),
-                article);
+                article,
+                likes,
+                dislikes);
 
         this.commentRepository.saveAndFlush(comment);
 
@@ -127,7 +133,7 @@ public class CommentController {
 
     @PostMapping("comments/edit/{id}")
     @PreAuthorize("isAuthenticated()")
-    public String editCommentProcess(@PathVariable Integer id, Model model,
+    public String editCommentProcess(@PathVariable Integer id,
                                      @Valid CommentBindingModel commentBindingModel,
                                      BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
@@ -195,6 +201,50 @@ public class CommentController {
 
         this.commentRepository.delete(comment);
 
+        return "redirect:/article/" + articleId;
+    }
+
+    @RequestMapping("article/comments/like/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String likeProcess(@PathVariable Integer id){
+        if (!this.commentRepository.exists(id)) {
+            return "redirect:/";
+        }
+
+        Comment comment = this.commentRepository.findOne(id);
+        Integer articleId = comment.getArticle().getId();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Integer userId = this.userRepository.findByEmail(principal.getUsername()).getId();
+
+        comment.getLikes().add(userId);
+        comment.getDislikes().remove(userId);
+
+        this.commentRepository.saveAndFlush(comment);
+        return "redirect:/article/" + articleId;
+    }
+
+    @RequestMapping("article/comments/dislike/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public String dislikeProcess(@PathVariable Integer id){
+        if (!this.commentRepository.exists(id)) {
+            return "redirect:/";
+        }
+
+        Comment comment = this.commentRepository.findOne(id);
+        Integer articleId = comment.getArticle().getId();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        Integer userId = this.userRepository.findByEmail(principal.getUsername()).getId();
+
+        comment.getDislikes().add(userId);
+        comment.getLikes().remove(userId);
+
+        this.commentRepository.saveAndFlush(comment);
         return "redirect:/article/" + articleId;
     }
 }

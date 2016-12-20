@@ -34,20 +34,49 @@
                         <th:block th:each="comment : ${comments}">
                             <div style="word-break: break-all">
                                 <h3 th:text="'Comment Title: ' + ${comment.title}"></h3>
-                                <blockquote th:text="${comment.content}"></blockquote>
-                                <small th:text="'Posted by ' + ${comment.getAuthor().getFullName()} + ' on ' + ${comment.getLocalDateTime()}"></small>
-                                <th:block th:if="${comment.getLastEditDate() != null}">
-                                    <p>
-                                        <small th:text="'Post last edited on: ' + ${comment.getLastEditDate()}"></small>
-                                    </p>
-                                </th:block>
-                                <div class="pull-right">
-                                    <th:block sec:authorize="isAuthenticated()"
-                                              th:if="${user.isAdmin() OR user.isAuthor(comment)}">
-                                        <a class="btn btn-success btn-xs"
-                                           th:href="@{/comments/edit/{id}/(id = ${comment.id})}">Edit</a>
-                                        <a class="btn btn-danger btn-xs"
-                                           th:href="@{/comments/delete/{id}(id = ${comment.id})}">Delete</a>
+                                <blockquote>
+                                    <div th:text="${comment.content}"></div>
+                                    <small th:text="'Posted by ' + ${comment.getAuthor().getFullName()} + ' on ' + ${comment.getLocalDateTime()}"></small>
+                                    <div class="pull-right">
+                                        <th:block sec:authorize="isAuthenticated()">
+                                            <th:block th:if="${user.isAdmin() OR user.isAuthor(comment)}">
+                                                <a class="btn btn-success btn-xs"
+                                                   th:href="@{/comments/edit/{id}(id = ${comment.id})}">Edit</a>
+                                                <a class="btn btn-danger btn-xs"
+                                                   th:if="${user.isAdmin() OR user.isAuthor(comment)}"
+                                                   th:href="@{/comments/delete/{id}(id = ${comment.id})}">Delete</a>
+                                            </th:block>
+                                            <a class="btn btn-info btn-xs"
+                                               th:href="@{comments/like/{id}(id = ${comment.id})}">Like</a>
+                                            <a class="btn btn-default btn-xs"
+                                               th:href="@{comments/dislike/{id}(id = ${comment.id})}">Dislike</a>
+                                        </th:block>
+                                    </div>
+                                    <th:block th:if="${comment.getLastEditDate() != null}">
+                                        <p>
+                                            <small th:text="'Post last edited on: ' + ${comment.getLastEditDate()}"></small>
+                                        </p>
+                                    </th:block>
+                                </blockquote>
+
+                                <div class="container container-fluid">
+                                    <div class="progress">
+                                        <th:block th:unless="${comment.getLikes().size()} == 0 AND ${comment.getDislikes().size()} == 0"
+                                        th:with="total=${comment.getLikes().size()}/(${comment.getLikes().size() + comment.getDislikes().size()})*100">
+                                            <div class="progress-bar" th:style="'width: ' + ${#numbers.formatInteger(total , 2, 'POINT')}+'%'"></div>
+                                        </th:block>
+                                    </div>
+                                    <span class="pull-left btn-info btn-sm" th:text="'Likes: ' + ${comment.getLikes().size()}"></span>
+                                    <span class="pull-right btn-default btn-sm" th:text="'Dislikes: ' + ${comment.getDislikes().size()}"></span>
+
+                                </div>
+                                <div class="container container-fluid">
+                                    <th:block sec:authorize="isAuthenticated()">
+                                        <p th:if="${comment.isLiked(user.id)}">
+                                            <div class="pull-left btn btn-info btn-sm">You like this</div>
+                                        </p><p th:if="${comment.isDisliked(user.id)}">
+                                            <div class="pull-right btn btn-default btn-sm">You dislike this</div>
+                                        </p>
                                     </th:block>
                                 </div>
                             </div>
