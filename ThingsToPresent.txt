@@ -29,7 +29,7 @@ footer for ${session} attribute)
 6.1 - users can add or delete comments below posts if they are the author or admin of the comments/blog
 6.2 - comments sorted by date in newest comment first
 6.3 - last edit date
-6.4 - implemented Likes/Dislikes
+6.4 - implemented Likes/Dislikes, added anchor in article/details and CommentController, so that after like it jumps to liked post
 6.5 - implemented percentage bar(explain in details template), eplain You Like This and You Dislike This
 6.6 - added session attribute for username to display instead of My Profile in header
 

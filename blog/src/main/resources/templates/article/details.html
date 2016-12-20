@@ -35,7 +35,7 @@
                             <div style="word-break: break-all">
                                 <h3 th:text="'Comment Title: ' + ${comment.title}"></h3>
                                 <blockquote>
-                                    <div th:text="${comment.content}"></div>
+                                    <div th:id="${comment.getId()}" th:text="${comment.content}"></div>
                                     <small th:text="'Posted by ' + ${comment.getAuthor().getFullName()} + ' on ' + ${comment.getLocalDateTime()}"></small>
                                     <div class="pull-right">
                                         <th:block sec:authorize="isAuthenticated()">

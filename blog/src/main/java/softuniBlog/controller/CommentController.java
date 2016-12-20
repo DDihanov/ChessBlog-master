@@ -223,7 +223,7 @@ public class CommentController {
         comment.getDislikes().remove(userId);
 
         this.commentRepository.saveAndFlush(comment);
-        return "redirect:/article/" + articleId;
+        return "redirect:/article/" + articleId+"#"+id;
     }
 
     @RequestMapping("article/comments/dislike/{id}")
@@ -245,6 +245,6 @@ public class CommentController {
         comment.getLikes().remove(userId);
 
         this.commentRepository.saveAndFlush(comment);
-        return "redirect:/article/" + articleId;
+        return "redirect:/article/" + articleId + "#" +id;
     }
 }
